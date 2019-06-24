@@ -6,7 +6,7 @@
 
     <groupId>com.hollandjake</groupId>
     <artifactId>Chatbot</artifactId>
-    <version>0.1.1</version>
+    <version>0.2.0</version>
     <build>
         <plugins>
             <plugin>
@@ -24,6 +24,12 @@
             <groupId>com.github.hollandjake</groupId>
             <artifactId>MessengerBotAPI</artifactId>
             <version>LATEST</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.9</version>
         </dependency>
     </dependencies>
 

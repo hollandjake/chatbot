@@ -2,10 +2,8 @@ package com.hollandjake.chatbot;
 
 import com.google.errorprone.annotations.ForOverride;
 import com.hollandjake.chatbot.exceptions.MalformedCommandException;
-import com.hollandjake.chatbot.modules.OneLinkCommand;
-import com.hollandjake.chatbot.modules.Ping;
 import com.hollandjake.chatbot.modules.Shutdown;
-import com.hollandjake.chatbot.modules.Stats;
+import com.hollandjake.chatbot.modules.*;
 import com.hollandjake.chatbot.utils.CommandModule;
 import com.hollandjake.chatbot.utils.DatabaseModule;
 import com.hollandjake.messengerBotAPI.API;
@@ -31,7 +29,6 @@ public abstract class Chatbot extends API {
 	private final LocalDateTime startup;
 	protected HashMap<String, CommandModule> modules;
 	private int numMessages = 0;
-
 	public Chatbot(Config config) {
 		super(config);
 		startup = LocalDateTime.now();
@@ -88,6 +85,7 @@ public abstract class Chatbot extends API {
 				Arrays.asList("commands", "help"),
 				"A list of commands can be found at",
 				"https://github.com/hollandjake/Chatbot/blob/master/README.md"));
+		modules.put("Reddit", new Reddit(this));
 
 		loadModules();
 	}
@@ -114,6 +112,10 @@ public abstract class Chatbot extends API {
 			return model.getVersion();
 		}
 		return "";
+	}
+
+	public HashMap<String, CommandModule> getModules() {
+		return modules;
 	}
 
 	public int getNumMessages() {
