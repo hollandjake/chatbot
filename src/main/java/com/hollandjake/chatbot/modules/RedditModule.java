@@ -3,6 +3,9 @@ package com.hollandjake.chatbot.modules;
 import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.utils.CommandModule;
 import com.hollandjake.chatbot.utils.DatabaseModule;
+import com.hollandjake.messengerBotAPI.message.Message;
+import com.hollandjake.messengerBotAPI.message.MessageComponent;
+import com.hollandjake.messengerBotAPI.message.Text;
 import com.hollandjake.messengerBotAPI.util.DatabaseController;
 
 import java.sql.Connection;
@@ -19,6 +22,7 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 	//region Constants
 	protected final Chatbot chatbot;
 	protected final DatabaseController db;
+	private final List<String> REGEXES;
 	private int MOD_ID;
 	//endregion
 
@@ -27,9 +31,10 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 	private PreparedStatement GET_RESPONSE_STMT;
 	//endregion
 
-	public RedditModule(Chatbot chatbot) {
+	public RedditModule(Chatbot chatbot, List<String> regexes) {
 		this.chatbot = chatbot;
 		this.db = chatbot.getDb();
+		REGEXES = regexes;
 	}
 
 	@Override
@@ -66,6 +71,24 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 			}
 		}
 		return null;
+	}
+
+	@Override
+	public boolean process(Message message) {
+		for (MessageComponent component : message.getComponents()) {
+			if (component instanceof Text) {
+				String text = ((Text) component).getText();
+				for (String regex : REGEXES) {
+					if (text.matches(regex)) {
+						String response = getResponse();
+						String image = getImage();
+						chatbot.sendMessageWithImage(response, image);
+						return true;
+					}
+				}
+			}
+		}
+		return false;
 	}
 
 	public int getMOD_ID() {
