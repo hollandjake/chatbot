@@ -97,6 +97,7 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 
 	protected String getResponse() {
 		try {
+			chatbot.checkDbConnection();
 			ResultSet resultSet = GET_RESPONSE_STMT.executeQuery();
 			if (resultSet.next()) {
 				return resultSet.getString("text");
@@ -110,6 +111,7 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 	public List<String> getSubreddits() {
 		List<String> subreddits = new ArrayList<>();
 		try {
+			chatbot.checkDbConnection();
 			ResultSet resultSet = GET_SUBREDDITS_STMT.executeQuery();
 			while (resultSet.next()) {
 				subreddits.add(resultSet.getString("link"));
