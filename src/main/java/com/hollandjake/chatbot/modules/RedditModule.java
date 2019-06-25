@@ -19,11 +19,12 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 	//region Constants
 	protected final Chatbot chatbot;
 	protected final DatabaseController db;
-	protected int MOD_ID;
+	private int MOD_ID;
 	//endregion
+
 	//region Database statements
-	protected PreparedStatement GET_SUBREDDITS_STMT;
-	protected PreparedStatement GET_RESPONSE_STMT;
+	private PreparedStatement GET_SUBREDDITS_STMT;
+	private PreparedStatement GET_RESPONSE_STMT;
 	//endregion
 
 	public RedditModule(Chatbot chatbot) {
@@ -31,13 +32,29 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 		this.db = chatbot.getDb();
 	}
 
-	public void setModId(Connection connection) throws SQLException {
+	@Override
+	public void prepareStatements(Connection connection) throws SQLException {
 		final PreparedStatement GET_MOD_ID = connection.prepareStatement("SELECT module_id FROM module WHERE module_name = ?");
 		GET_MOD_ID.setString(1, getClass().getSimpleName());
 		ResultSet resultSet = GET_MOD_ID.executeQuery();
 		if (resultSet.next()) {
 			MOD_ID = resultSet.getInt("module_id");
 		}
+
+		GET_SUBREDDITS_STMT = connection.prepareStatement("" +
+				"SELECT" +
+				"   link " +
+				"FROM subreddit S " +
+				"WHERE module_id = " + MOD_ID);
+
+		GET_RESPONSE_STMT = connection.prepareStatement("" +
+				"SELECT" +
+				"   text " +
+				"FROM text T " +
+				"JOIN response_text rt on T.text_id = rt.text_id " +
+				"WHERE module_id = " + MOD_ID +
+				" ORDER BY RAND() " +
+				"LIMIT 1");
 	}
 
 	protected String getImage() {
@@ -49,6 +66,10 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 			}
 		}
 		return null;
+	}
+
+	public int getMOD_ID() {
+		return MOD_ID;
 	}
 
 	protected String getResponse() {
