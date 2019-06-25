@@ -64,6 +64,9 @@ public abstract class Chatbot extends API {
 		System.out.println("Database reload");
 		for (CommandModule module : modules.values()) {
 			if (module instanceof DatabaseModule) {
+				if (module instanceof RedditModule) {
+					((RedditModule) module).setModId(connection);
+				}
 				((DatabaseModule) module).prepareStatements(connection);
 			}
 		}
