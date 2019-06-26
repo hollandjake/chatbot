@@ -9,6 +9,7 @@ import com.hollandjake.chatbot.utils.DatabaseModule;
 import com.hollandjake.messengerBotAPI.API;
 import com.hollandjake.messengerBotAPI.message.Image;
 import com.hollandjake.messengerBotAPI.message.Message;
+import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.util.Config;
 import org.apache.maven.model.Model;
 import org.apache.maven.model.io.xpp3.MavenXpp3Reader;
@@ -29,6 +30,7 @@ public abstract class Chatbot extends API {
 	private final LocalDateTime startup;
 	protected HashMap<String, CommandModule> modules;
 	private int numMessages = 0;
+
 	public Chatbot(Config config) {
 		super(config);
 		startup = LocalDateTime.now();
@@ -37,17 +39,18 @@ public abstract class Chatbot extends API {
 	protected abstract void loadModules();
 
 	public void sendMessageWithImage(String text, String imageUrl) {
+		sendMessageWithImage(text, Image.fromUrl(config, imageUrl));
+	}
+
+	public void sendMessageWithImage(String text, MessageComponent image) {
 		Message message = Message.fromString(getThread(), getMe(), text);
-		message.getComponents().add(Image.fromUrl(imageUrl));
+		message.getComponents().add(image);
 		sendMessage(message);
 	}
 
 	@Override
 	public void newMessage(Message message) {
 		numMessages++;
-		if (debugging()) {
-			message.print();
-		}
 		try {
 			for (CommandModule module : modules.values()) {
 				if (module.process(message)) {
