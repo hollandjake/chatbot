@@ -4,7 +4,7 @@ import com.google.errorprone.annotations.ForOverride;
 import com.hollandjake.chatbot.exceptions.MalformedCommandException;
 import com.hollandjake.chatbot.modules.Shutdown;
 import com.hollandjake.chatbot.modules.*;
-import com.hollandjake.chatbot.utils.CommandModule;
+import com.hollandjake.chatbot.utils.CommandableModule;
 import com.hollandjake.chatbot.utils.DatabaseModule;
 import com.hollandjake.messengerBotAPI.API;
 import com.hollandjake.messengerBotAPI.message.Image;
@@ -28,7 +28,7 @@ import java.util.HashMap;
 public abstract class Chatbot extends API {
 
 	private final LocalDateTime startup;
-	protected HashMap<String, CommandModule> modules;
+	protected HashMap<String, CommandableModule> modules;
 	private int numMessages = 0;
 
 	public Chatbot(Config config) {
@@ -52,7 +52,7 @@ public abstract class Chatbot extends API {
 	public void newMessage(Message message) {
 		numMessages++;
 		try {
-			for (CommandModule module : modules.values()) {
+			for (CommandableModule module : modules.values()) {
 				if (module.process(message)) {
 					break;
 				}
@@ -64,8 +64,10 @@ public abstract class Chatbot extends API {
 
 	@Override
 	public void databaseReload(Connection connection) throws SQLException {
-		System.out.println("Database reload");
-		for (CommandModule module : modules.values()) {
+		if (debugging()) {
+			System.out.println("Database reload");
+		}
+		for (CommandableModule module : modules.values()) {
 			if (module instanceof DatabaseModule) {
 				((DatabaseModule) module).prepareStatements(connection);
 			}
@@ -74,21 +76,23 @@ public abstract class Chatbot extends API {
 
 	@Override
 	public void loaded() {
-		System.out.println("Loaded");
+		if (debugging()) {
+			System.out.println("Loaded");
+		}
 		modules = new HashMap<>();
-		modules.put("Shutdown", new Shutdown(this));
-		modules.put("Stats", new Stats(this));
-		modules.put("Ping", new Ping(this));
+		modules.put("Commands", new OneLinkCommand(this,
+				Arrays.asList("commands", "help"),
+				"A list of commands can be found at",
+				"https://github.com/hollandjake/Chatbot/blob/master/README.md"));
 		modules.put("Github", new OneLinkCommand(this,
 				Arrays.asList("github", "repo"),
 				"Github repository",
 				"https://github.com/hollandjake/Chatbot"
 		));
-		modules.put("Commands", new OneLinkCommand(this,
-				Arrays.asList("commands", "help"),
-				"A list of commands can be found at",
-				"https://github.com/hollandjake/Chatbot/blob/master/README.md"));
+		modules.put("Ping", new Ping(this));
 		modules.put("Reddit", new Reddit(this));
+		modules.put("Shutdown", new Shutdown(this));
+		modules.put("Stats", new Stats(this));
 
 		loadModules();
 	}
@@ -117,7 +121,7 @@ public abstract class Chatbot extends API {
 		return "";
 	}
 
-	public HashMap<String, CommandModule> getModules() {
+	public HashMap<String, CommandableModule> getModules() {
 		return modules;
 	}
 

@@ -1,14 +1,9 @@
 package com.hollandjake.chatbot.utils;
 
-import com.hollandjake.chatbot.exceptions.MalformedCommandException;
-import com.hollandjake.messengerBotAPI.message.Message;
+import com.hollandjake.chatbot.Chatbot;
 
-public interface CommandModule {
-	/**
-	 * Used to apply the module to the message and act upon its response
-	 *
-	 * @param message {@link Message}
-	 * @return {@link Boolean}
-	 */
-	boolean process(Message message) throws MalformedCommandException;
+public abstract class CommandModule extends Module implements CommandableModule {
+	protected CommandModule(Chatbot chatbot) {
+		super(chatbot);
+	}
 }

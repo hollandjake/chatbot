@@ -13,13 +13,12 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-public class Shutdown implements CommandModule {
+public class Shutdown extends CommandModule {
 	private static final String SHUTDOWN_REGEX = CONSTANTS.ACTIONIFY("shutdown (\\d*)");
-	private final Chatbot chatbot;
 	private final String code = Integer.toString((new Random()).nextInt(99999));
 
 	public Shutdown(Chatbot chatbot) {
-		this.chatbot = chatbot;
+		super(chatbot);
 	}
 
 	@Override

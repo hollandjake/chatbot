@@ -12,14 +12,13 @@ import java.time.ZoneOffset;
 import java.util.concurrent.TimeUnit;
 
 
-public class Stats implements CommandModule {
+public class Stats extends CommandModule {
 	private final String STATS_REGEX = CONSTANTS.ACTIONIFY("stats");
 	private final String UPTIME_REGEX = CONSTANTS.ACTIONIFY("uptime");
 	private final String PUPTIME_REGEX = CONSTANTS.ACTIONIFY("puptime");
-	private final Chatbot chatbot;
 
 	public Stats(Chatbot chatbot) {
-		this.chatbot = chatbot;
+		super(chatbot);
 	}
 
 	@Override
@@ -40,8 +39,8 @@ public class Stats implements CommandModule {
 	}
 
 	public String getMinifiedStats() {
-		String var10000 = this.chatbot.getVersion();
-		return "Version: " + var10000 + "\nJava version: " + System.getProperty("java.version") + "\nOperating System: " + System.getProperty("os.name");
+		String version = this.chatbot.getVersion();
+		return "Version: " + version + "\nJava version: " + System.getProperty("java.version") + "\nOperating System: " + System.getProperty("os.name");
 	}
 
 	private String getStats() {

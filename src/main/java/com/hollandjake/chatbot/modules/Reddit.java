@@ -3,24 +3,24 @@ package com.hollandjake.chatbot.modules;
 import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.utils.CONSTANTS;
 import com.hollandjake.chatbot.utils.CommandModule;
+import com.hollandjake.chatbot.utils.CommandableModule;
 import com.hollandjake.messengerBotAPI.message.Message;
 import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.message.Text;
 
-import java.util.HashMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import static com.hollandjake.chatbot.utils.CONSTANTS.ACTIONIFY;
 
-public class Reddit implements CommandModule {
+public class Reddit extends CommandModule {
 	//region Constants
 	private final String REDDITS_REGEX = ACTIONIFY("reddits");
-	private final Chatbot chatbot;
+	private final String REDDIT_REGEX = ACTIONIFY("reddit");
 	//endregion
 
 	public Reddit(Chatbot chatbot) {
-		this.chatbot = chatbot;
+		super(chatbot);
 	}
 
 	public static String getSubredditPicture(String subreddit) {
@@ -44,17 +44,25 @@ public class Reddit implements CommandModule {
 				String text = ((Text) component).getText();
 				if (text.matches(REDDITS_REGEX)) {
 					StringBuilder response = new StringBuilder("Reddits currently in use\n");
-					HashMap<String, CommandModule> modules = chatbot.getModules();
-					for (CommandModule module : modules.values()) {
+					int numReddits = 0;
+					for (CommandableModule module : chatbot.getModules().values()) {
 						if (module instanceof RedditModule) {
 							response.append("\n");
 							for (String subreddit : ((RedditModule) module).getSubreddits()) {
+								numReddits++;
 								response.append("\thttps://www.reddit.com/r/").append(subreddit).append("\n");
 							}
 						}
 					}
+					response.append("\n")
+							.append(numReddits)
+							.append(" reddit module")
+							.append(numReddits != 1 ? "s" : "")
+							.append(" being used");
 					chatbot.sendMessage(response.toString());
 					return true;
+				} else if (text.matches(REDDIT_REGEX)) {
+					chatbot.sendMessage("https://www.reddit.com/");
 				}
 			}
 		}

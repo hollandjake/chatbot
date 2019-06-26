@@ -1,12 +1,10 @@
 package com.hollandjake.chatbot.modules;
 
 import com.hollandjake.chatbot.Chatbot;
-import com.hollandjake.chatbot.utils.CommandModule;
-import com.hollandjake.chatbot.utils.DatabaseModule;
+import com.hollandjake.chatbot.utils.DatabaseCommandModule;
 import com.hollandjake.messengerBotAPI.message.Message;
 import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.message.Text;
-import com.hollandjake.messengerBotAPI.util.DatabaseController;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -17,13 +15,10 @@ import java.util.List;
 
 import static com.hollandjake.chatbot.utils.CONSTANTS.GET_RANDOM;
 
-public abstract class RedditModule implements CommandModule, DatabaseModule {
+public abstract class RedditModule extends DatabaseCommandModule {
 
 	//region Constants
-	protected final Chatbot chatbot;
-	protected final DatabaseController db;
 	private final List<String> REGEXES;
-	private int MOD_ID;
 	//endregion
 
 	//region Database statements
@@ -32,19 +27,13 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 	//endregion
 
 	public RedditModule(Chatbot chatbot, List<String> regexes) {
-		this.chatbot = chatbot;
-		this.db = chatbot.getDb();
+		super(chatbot);
 		REGEXES = regexes;
 	}
 
 	@Override
 	public void prepareStatements(Connection connection) throws SQLException {
-		final PreparedStatement GET_MOD_ID = connection.prepareStatement("SELECT module_id FROM module WHERE module_name = ?");
-		GET_MOD_ID.setString(1, getClass().getSimpleName());
-		ResultSet resultSet = GET_MOD_ID.executeQuery();
-		if (resultSet.next()) {
-			MOD_ID = resultSet.getInt("module_id");
-		}
+		updateModuleId(connection);
 
 		GET_SUBREDDITS_STMT = connection.prepareStatement("" +
 				"SELECT" +
@@ -60,17 +49,6 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 				"WHERE module_id = " + MOD_ID +
 				" ORDER BY RAND() " +
 				"LIMIT 1");
-	}
-
-	protected String getImage() {
-		List<String> subreddits = getSubreddits();
-		while (subreddits != null && subreddits.size() > 0) {
-			String image = Reddit.getSubredditPicture(GET_RANDOM(subreddits));
-			if (image != null) {
-				return image;
-			}
-		}
-		return null;
 	}
 
 	@Override
@@ -91,8 +69,15 @@ public abstract class RedditModule implements CommandModule, DatabaseModule {
 		return false;
 	}
 
-	public int getMOD_ID() {
-		return MOD_ID;
+	protected String getImage() {
+		List<String> subreddits = getSubreddits();
+		while (subreddits != null && subreddits.size() > 0) {
+			String image = Reddit.getSubredditPicture(GET_RANDOM(subreddits));
+			if (image != null) {
+				return image;
+			}
+		}
+		return null;
 	}
 
 	protected String getResponse() {
