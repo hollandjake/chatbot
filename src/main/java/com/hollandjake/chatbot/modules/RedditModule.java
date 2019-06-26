@@ -39,14 +39,14 @@ public abstract class RedditModule extends DatabaseCommandModule {
 				"SELECT" +
 				"   link " +
 				"FROM subreddit S " +
-				"WHERE module_id = " + MOD_ID);
+				"WHERE module_id = " + modId);
 
 		GET_RESPONSE_STMT = connection.prepareStatement("" +
 				"SELECT" +
 				"   text " +
 				"FROM text T " +
 				"JOIN response_text rt on T.text_id = rt.text_id " +
-				"WHERE module_id = " + MOD_ID +
+				"WHERE module_id = " + modId +
 				" ORDER BY RAND() " +
 				"LIMIT 1");
 	}
