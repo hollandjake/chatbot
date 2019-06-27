@@ -24,18 +24,32 @@ public class Stats extends CommandModule {
 	@Override
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
-			if (component instanceof Text) {
-				String text = ((Text) component).getText();
-				if (text.matches(STATS_REGEX)) {
-					chatbot.sendMessage(getStats());
-					return true;
-				} else if (text.matches(UPTIME_REGEX) || text.matches(PUPTIME_REGEX)) {
-					chatbot.sendMessage(getUptime());
-					return true;
-				}
+			String match = getMatch(component);
+			if (match.equals(STATS_REGEX)) {
+				chatbot.sendMessage(getStats());
+				return true;
+			} else if (match.equals(UPTIME_REGEX) || match.equals(PUPTIME_REGEX)) {
+				chatbot.sendMessage(getUptime());
+				return true;
 			}
+
 		}
 		return false;
+	}
+
+	@Override
+	public String getMatch(MessageComponent component) {
+		if (component instanceof Text) {
+			String text = ((Text) component).getText();
+			if (text.matches(STATS_REGEX)) {
+				return STATS_REGEX;
+			} else if (text.matches(UPTIME_REGEX)) {
+				return UPTIME_REGEX;
+			} else if (text.matches(PUPTIME_REGEX)) {
+				return PUPTIME_REGEX;
+			}
+		}
+		return "";
 	}
 
 	public String getMinifiedStats() {

@@ -25,16 +25,27 @@ public class OneLinkCommand extends CommandModule {
 	@Override
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
-			if (component instanceof Text) {
-				String text = ((Text) component).getText();
-				for (String command : COMMAND_REGEXES) {
-					if (text.matches(command)) {
-						chatbot.sendMessage(this.message + (url.isEmpty() ? "" : (":\n" + url)));
-						return true;
-					}
+			String match = getMatch(component);
+			for (String command : COMMAND_REGEXES) {
+				if (match.equals(command)) {
+					chatbot.sendMessage(this.message + (url.isEmpty() ? "" : (":\n" + url)));
+					return true;
 				}
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String getMatch(MessageComponent component) {
+		if (component instanceof Text) {
+			String text = ((Text) component).getText();
+			for (String command : COMMAND_REGEXES) {
+				if (text.matches(command)) {
+					return command;
+				}
+			}
+		}
+		return "";
 	}
 }

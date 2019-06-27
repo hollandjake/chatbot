@@ -54,19 +54,31 @@ public abstract class RedditModule extends DatabaseCommandModule {
 	@Override
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
-			if (component instanceof Text) {
-				String text = ((Text) component).getText();
-				for (String regex : REGEXES) {
-					if (text.matches(regex)) {
-						String response = getResponse();
-						String image = getImage();
-						chatbot.sendMessageWithImage(response, image);
-						return true;
-					}
+			String match = getMatch(component);
+			for (String regex : REGEXES) {
+				if (match.equals(regex)) {
+					String response = getResponse();
+					String image = getImage();
+					chatbot.sendMessageWithImage(response, image);
+					return true;
+				}
+			}
+
+		}
+		return false;
+	}
+
+	@Override
+	public String getMatch(MessageComponent component) {
+		if (component instanceof Text) {
+			String text = ((Text) component).getText();
+			for (String command : REGEXES) {
+				if (text.matches(command)) {
+					return command;
 				}
 			}
 		}
-		return false;
+		return "";
 	}
 
 	protected String getImage() {

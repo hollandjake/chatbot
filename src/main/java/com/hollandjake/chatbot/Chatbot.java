@@ -129,6 +129,17 @@ public abstract class Chatbot extends API {
 		return numMessages;
 	}
 
+	public boolean containsCommand(Message message) {
+		for (MessageComponent component : message.getComponents()) {
+			for (CommandableModule module : modules.values()) {
+				if (!module.getMatch(component).isEmpty()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	public LocalDateTime getStartup() {
 		return startup;
 	}

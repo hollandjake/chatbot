@@ -18,18 +18,27 @@ public class Ping extends CommandModule {
 	@Override
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
-			if (component instanceof Text) {
-				String text = ((Text) component).getText();
-				if (text.matches(PING_REGEX)) {
-					if (Math.random() < 0.3) {
-						chatbot.sendMessageWithImage("Pong! \uD83C\uDFD3", "https://www.rightthisminute.com/sites/default/files/styles/twitter_card/public/videos/images/munchkin-teddy-bear-dog-ping-pong-video.jpg?itok=ajJWbxY6");
-					} else {
-						chatbot.sendMessage("Pong! \uD83C\uDFD3");
-					}
-					return true;
+			String match = getMatch(component);
+			if (match.equals(PING_REGEX)) {
+				if (Math.random() < 0.3) {
+					chatbot.sendMessageWithImage("Pong! \uD83C\uDFD3", "https://www.rightthisminute.com/sites/default/files/styles/twitter_card/public/videos/images/munchkin-teddy-bear-dog-ping-pong-video.jpg?itok=ajJWbxY6");
+				} else {
+					chatbot.sendMessage("Pong! \uD83C\uDFD3");
 				}
+				return true;
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String getMatch(MessageComponent component) {
+		if (component instanceof Text) {
+			String text = ((Text) component).getText();
+			if (text.matches(PING_REGEX)) {
+				return PING_REGEX;
+			}
+		}
+		return "";
 	}
 }

@@ -19,24 +19,35 @@ public class Shutdown extends CommandModule {
 
 	public Shutdown(Chatbot chatbot) {
 		super(chatbot);
+		System.out.println("Shutdown code: " + code);
 	}
 
 	@Override
 	public boolean process(Message message) throws MalformedCommandException {
 		for (MessageComponent component : message.getComponents()) {
-			if (component instanceof Text) {
+			String match = getMatch(component);
+			if (match.equals(SHUTDOWN_REGEX)) {
 				String text = ((Text) component).getText();
-				if (text.matches(SHUTDOWN_REGEX)) {
-					Matcher matcher = Pattern.compile(SHUTDOWN_REGEX).matcher(text);
-					if (matcher.find() && matcher.group(1).equals(code)) {
-						chatbot.quit();
-						return true;
-					} else {
-						throw new MalformedCommandException();
-					}
+				Matcher matcher = Pattern.compile(SHUTDOWN_REGEX).matcher(text);
+				if (matcher.find() && matcher.group(1).equals(code)) {
+					chatbot.quit();
+					return true;
+				} else {
+					throw new MalformedCommandException();
 				}
 			}
 		}
 		return false;
+	}
+
+	@Override
+	public String getMatch(MessageComponent component) {
+		if (component instanceof Text) {
+			String text = ((Text) component).getText();
+			if (text.matches(SHUTDOWN_REGEX)) {
+				return SHUTDOWN_REGEX;
+			}
+		}
+		return "";
 	}
 }
