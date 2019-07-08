@@ -1,4 +1,4 @@
-# Chatbot [![](https://jitci.com/gh/hollandjake/Chatbot/svg)](https://jitci.com/gh/hollandjake/Chatbot)
+# Chatbot [![Release](https://jitpack.io/v/hollandjake/Chatbot.svg)](https://jitpack.io/#hollandjake/Chatbot) [![](https://jitci.com/gh/hollandjake/Chatbot/svg)](https://jitci.com/gh/hollandjake/Chatbot)
 
 Facebook messenger group chat bot. Expands upon the [MessengerBotAPI](https://github.com/hollandjake/MessengerBotAPI) system.
 
