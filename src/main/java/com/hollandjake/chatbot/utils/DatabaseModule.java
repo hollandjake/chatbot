@@ -41,10 +41,10 @@ public abstract class DatabaseModule extends Module {
 	private void prepareRandomImage(Connection connection) throws SQLException {
 		RANDOM_IMAGE_STMT = connection.prepareStatement("" +
 				"SELECT" +
-				"   image_id," +
+				"   i.image_id," +
 				"   data " +
-				"FROM image " +
-				"JOIN response_image ri on image.image_id = ri.image_id " +
+				"FROM image i " +
+				"JOIN response_image ri on i.image_id = ri.image_id " +
 				"WHERE module_id = " + modId +
 				" ORDER BY RAND() " +
 				"LIMIT 1");
@@ -54,8 +54,8 @@ public abstract class DatabaseModule extends Module {
 		RANDOM_RESPONSE_STMT = connection.prepareStatement("" +
 				"SELECT" +
 				"   text " +
-				"FROM text " +
-				"JOIN response_text rt on text.text_id = rt.text_id " +
+				"FROM text t " +
+				"JOIN response_text rt on t.text_id = rt.text_id " +
 				"WHERE module_id = " + modId +
 				" ORDER BY RAND() " +
 				"LIMIT 1");
