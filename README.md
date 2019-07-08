@@ -1,4 +1,4 @@
-# Chatbot [![Build Status](https://travis-ci.com/hollandjake/Chatbot.svg?branch=master)](https://travis-ci.com/hollandjake/Chatbot)
+# Chatbot [![](https://jitci.com/gh/hollandjake/Chatbot/svg)](https://jitci.com/gh/hollandjake/Chatbot)
 
 Facebook messenger group chat bot. Expands upon the [MessengerBotAPI](https://github.com/hollandjake/MessengerBotAPI) system.
 

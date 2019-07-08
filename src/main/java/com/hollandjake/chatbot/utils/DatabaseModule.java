@@ -2,6 +2,8 @@ package com.hollandjake.chatbot.utils;
 
 import com.google.errorprone.annotations.ForOverride;
 import com.hollandjake.chatbot.Chatbot;
+import com.hollandjake.messengerBotAPI.message.Image;
+import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.util.DatabaseController;
 
 import java.sql.Connection;
@@ -12,8 +14,8 @@ import java.sql.SQLException;
 public abstract class DatabaseModule extends Module {
 	protected final DatabaseController db;
 	protected Integer modId;
-	protected PreparedStatement RANDOM_IMAGE_STMT;
-	protected PreparedStatement RANDOM_TEXT_STMT;
+	private PreparedStatement RANDOM_IMAGE_STMT;
+	private PreparedStatement RANDOM_RESPONSE_STMT;
 
 	protected DatabaseModule(Chatbot chatbot) {
 		super(chatbot);
@@ -24,7 +26,7 @@ public abstract class DatabaseModule extends Module {
 	public void prepareStatements(Connection connection) throws SQLException {
 		updateModuleId(connection);
 		prepareRandomImage(connection);
-		prepareRandomText(connection);
+		prepareRandomResponse(connection);
 	}
 
 	private void updateModuleId(Connection connection) throws SQLException {
@@ -48,8 +50,8 @@ public abstract class DatabaseModule extends Module {
 				"LIMIT 1");
 	}
 
-	private void prepareRandomText(Connection connection) throws SQLException {
-		RANDOM_TEXT_STMT = connection.prepareStatement("" +
+	private void prepareRandomResponse(Connection connection) throws SQLException {
+		RANDOM_RESPONSE_STMT = connection.prepareStatement("" +
 				"SELECT" +
 				"   text " +
 				"FROM text " +
@@ -61,5 +63,31 @@ public abstract class DatabaseModule extends Module {
 
 	public Integer getModId() {
 		return modId;
+	}
+
+	protected MessageComponent getRandomImage() {
+		try {
+			chatbot.checkDbConnection();
+			ResultSet resultSet = RANDOM_IMAGE_STMT.executeQuery();
+			if (resultSet.next()) {
+				return Image.fromResultSet(chatbot.getConfig(), resultSet);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+
+	protected String getRandomResponse() {
+		try {
+			db.checkConnection();
+			ResultSet resultSet = RANDOM_RESPONSE_STMT.executeQuery();
+			if (resultSet.next()) {
+				return resultSet.getString("text");
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 }
