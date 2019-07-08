@@ -1,7 +1,7 @@
-package com.hollandjake.chatbot.modules;
+package com.hollandjake.chatbot.utils;
 
 import com.hollandjake.chatbot.Chatbot;
-import com.hollandjake.chatbot.utils.DatabaseCommandModule;
+import com.hollandjake.chatbot.modules.Reddit;
 import com.hollandjake.messengerBotAPI.message.Message;
 import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.message.Text;
@@ -33,7 +33,7 @@ public abstract class RedditModule extends DatabaseCommandModule {
 
 	@Override
 	public void prepareStatements(Connection connection) throws SQLException {
-		updateModuleId(connection);
+		super.prepareStatements(connection);
 
 		GET_SUBREDDITS_STMT = connection.prepareStatement("" +
 				"SELECT" +

@@ -4,6 +4,7 @@ import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.utils.CONSTANTS;
 import com.hollandjake.chatbot.utils.CommandModule;
 import com.hollandjake.chatbot.utils.CommandableModule;
+import com.hollandjake.chatbot.utils.RedditModule;
 import com.hollandjake.messengerBotAPI.message.Message;
 import com.hollandjake.messengerBotAPI.message.MessageComponent;
 import com.hollandjake.messengerBotAPI.message.Text;

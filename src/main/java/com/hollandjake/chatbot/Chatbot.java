@@ -48,6 +48,17 @@ public abstract class Chatbot extends API {
 		sendMessage(message);
 	}
 
+	public boolean containsCommand(Message message) {
+		for (MessageComponent component : message.getComponents()) {
+			for (CommandableModule module : modules.values()) {
+				if (!module.getMatch(component).isEmpty()) {
+					return true;
+				}
+			}
+		}
+		return false;
+	}
+
 	@Override
 	public void newMessage(Message message) {
 		numMessages++;
@@ -127,17 +138,6 @@ public abstract class Chatbot extends API {
 
 	public int getNumMessages() {
 		return numMessages;
-	}
-
-	public boolean containsCommand(Message message) {
-		for (MessageComponent component : message.getComponents()) {
-			for (CommandableModule module : modules.values()) {
-				if (!module.getMatch(component).isEmpty()) {
-					return true;
-				}
-			}
-		}
-		return false;
 	}
 
 	public LocalDateTime getStartup() {
