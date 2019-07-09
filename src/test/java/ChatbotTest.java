@@ -19,7 +19,7 @@ class ChatbotTest extends Chatbot {
 		modules.put("Github", new OneLinkCommand(this,
 				Arrays.asList("github", "repo"),
 				"Github repository",
-				"https://github.com/hollandjake/Chatbot"
+				"https://github.com/hollandjake/chatbot"
 		));
 	}
 }
