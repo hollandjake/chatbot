@@ -4,9 +4,9 @@ import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.exceptions.MalformedCommandException;
 import com.hollandjake.chatbot.utils.CONSTANTS;
 import com.hollandjake.chatbot.utils.CommandModule;
-import com.hollandjake.messengerBotAPI.message.Message;
-import com.hollandjake.messengerBotAPI.message.MessageComponent;
-import com.hollandjake.messengerBotAPI.message.Text;
+import com.hollandjake.messenger_bot_api.message.Message;
+import com.hollandjake.messenger_bot_api.message.MessageComponent;
+import com.hollandjake.messenger_bot_api.message.Text;
 
 import java.util.Random;
 import java.util.regex.Matcher;

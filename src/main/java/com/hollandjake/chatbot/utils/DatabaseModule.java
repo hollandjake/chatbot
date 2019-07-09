@@ -2,9 +2,9 @@ package com.hollandjake.chatbot.utils;
 
 import com.google.errorprone.annotations.ForOverride;
 import com.hollandjake.chatbot.Chatbot;
-import com.hollandjake.messengerBotAPI.message.Image;
-import com.hollandjake.messengerBotAPI.message.MessageComponent;
-import com.hollandjake.messengerBotAPI.util.DatabaseController;
+import com.hollandjake.messenger_bot_api.message.Image;
+import com.hollandjake.messenger_bot_api.message.MessageComponent;
+import com.hollandjake.messenger_bot_api.util.DatabaseController;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

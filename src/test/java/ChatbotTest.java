@@ -1,6 +1,6 @@
 import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.modules.OneLinkCommand;
-import com.hollandjake.messengerBotAPI.util.Config;
+import com.hollandjake.messenger_bot_api.util.Config;
 
 import java.util.Arrays;
 

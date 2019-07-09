@@ -2,9 +2,9 @@ package com.hollandjake.chatbot.utils;
 
 import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.modules.Reddit;
-import com.hollandjake.messengerBotAPI.message.Message;
-import com.hollandjake.messengerBotAPI.message.MessageComponent;
-import com.hollandjake.messengerBotAPI.message.Text;
+import com.hollandjake.messenger_bot_api.message.Message;
+import com.hollandjake.messenger_bot_api.message.MessageComponent;
+import com.hollandjake.messenger_bot_api.message.Text;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;

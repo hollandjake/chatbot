@@ -2,9 +2,9 @@ package com.hollandjake.chatbot.modules;
 
 import com.hollandjake.chatbot.Chatbot;
 import com.hollandjake.chatbot.utils.CommandModule;
-import com.hollandjake.messengerBotAPI.message.Message;
-import com.hollandjake.messengerBotAPI.message.MessageComponent;
-import com.hollandjake.messengerBotAPI.message.Text;
+import com.hollandjake.messenger_bot_api.message.Message;
+import com.hollandjake.messenger_bot_api.message.MessageComponent;
+import com.hollandjake.messenger_bot_api.message.Text;
 
 import static com.hollandjake.chatbot.utils.CONSTANTS.ACTIONIFY;
 
