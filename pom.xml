@@ -5,8 +5,8 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.hollandjake</groupId>
-    <artifactId>Chatbot</artifactId>
-    <version>0.8.3</version>
+    <artifactId>chatbot</artifactId>
+    <version>0.8.4</version>
     <build>
         <plugins>
             <plugin>
@@ -23,7 +23,7 @@
     <dependencies>
         <dependency>
             <groupId>com.github.hollandjake</groupId>
-            <artifactId>MessengerBotAPI</artifactId>
+            <artifactId>messenger-bot-api</artifactId>
             <version>LATEST</version>
         </dependency>
 
