@@ -68,16 +68,20 @@ public abstract class Chatbot extends API {
 		}
 	}
 
-	@Override
-	public void databaseReload(Connection connection) throws SQLException {
-		if (debugging()) {
-			System.out.println("Database reload");
-		}
+	private void prepareModules(Connection connection) throws SQLException {
 		for (CommandableModule module : modules.values()) {
 			if (module instanceof DatabaseModule) {
 				((DatabaseModule) module).prepareStatements(connection);
 			}
 		}
+	}
+
+	@Override
+	public void databaseReload(Connection connection) throws SQLException {
+		if (debugging()) {
+			System.out.println("Database reload");
+		}
+		prepareModules(connection);
 	}
 
 	@Override
@@ -101,6 +105,7 @@ public abstract class Chatbot extends API {
 		modules.put("Stats", new Stats(this));
 
 		loadModules(connection);
+		prepareModules(connection);
 	}
 
 	public HashMap<String, CommandableModule> getModules() {
