@@ -1,6 +1,5 @@
 package com.hollandjake.chatbot.utils;
 
-import com.hollandjake.chatbot.exceptions.MalformedCommandException;
 import com.hollandjake.messenger_bot_api.message.Message;
 import com.hollandjake.messenger_bot_api.message.MessageComponent;
 
@@ -11,7 +10,7 @@ public interface CommandableModule {
 	 * @param message {@link Message}
 	 * @return {@link Boolean}
 	 */
-	boolean process(Message message) throws MalformedCommandException;
+	boolean process(Message message) throws Exception;
 
 	/**
 	 * Used to apply the module to the message and return which regex matches
