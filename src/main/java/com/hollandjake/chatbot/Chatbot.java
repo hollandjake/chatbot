@@ -63,6 +63,7 @@ public abstract class Chatbot extends API {
 		} catch (MalformedCommandException e) {
 			sendMessage("There seems to be an issue with your command");
 		} catch (Exception e) {
+			e.printStackTrace();
 			sendMessage("I'm sorry, somethings gone wrong");
 		}
 	}
