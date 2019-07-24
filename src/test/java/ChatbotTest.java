@@ -17,7 +17,7 @@ class ChatbotTest extends Chatbot {
 	}
 
 	@Override
-	protected void loadModules(Connection connection) {
+	protected void loadModules(Connection connection) throws SQLException {
 		modules.put("Google", new OneLinkCommand(this,
 				Arrays.asList("google"),
 				"Google",

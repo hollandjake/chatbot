@@ -12,15 +12,16 @@ class ChatbotTest extends Chatbot {
 	}
 
 	public static void main(String[] args) throws SQLException {
-		new ChatbotTest(new Config());
+		String configFile = args.length > 0 ? args[0] : null;
+		new ChatbotTest(new Config(configFile));
 	}
 
 	@Override
-	protected void loadModules(Connection connection) {
-		modules.put("Github", new OneLinkCommand(this,
-				Arrays.asList("github", "repo", "git"),
-				"Github repository",
-				"https://github.com/hollandjake/chatbot"
+	protected void loadModules(Connection connection) throws SQLException {
+		modules.put("Google", new OneLinkCommand(this,
+				Arrays.asList("google"),
+				"Google",
+				"https://www.google.com"
 		));
 	}
 }

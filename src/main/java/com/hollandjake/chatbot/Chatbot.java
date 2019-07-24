@@ -28,7 +28,7 @@ public abstract class Chatbot extends API {
 		startup = LocalDateTime.now();
 	}
 
-	protected abstract void loadModules(Connection connection);
+	protected abstract void loadModules(Connection connection) throws SQLException;
 
 	public void sendMessageWithImage(String text, String imageUrl) {
 		sendMessageWithImage(text, Image.fromUrl(config, imageUrl));
@@ -78,7 +78,7 @@ public abstract class Chatbot extends API {
 	}
 
 	@Override
-	public void loaded(Connection connection) {
+	public void loaded(Connection connection) throws SQLException {
 		if (debugging()) {
 			System.out.println("Loaded");
 		}
