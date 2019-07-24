@@ -19,7 +19,7 @@ public abstract class DatabaseModule extends Module {
 
 	protected DatabaseModule(Chatbot chatbot) {
 		super(chatbot);
-		this.db = chatbot.getDb();
+		db = chatbot.getDb();
 	}
 
 	@ForOverride

@@ -17,8 +17,8 @@ public class OneLinkCommand extends CommandModule {
 
 	public OneLinkCommand(Chatbot chatbot, List<String> commands, String message, String link) {
 		super(chatbot);
-		this.COMMAND_REGEXES = commands.stream().map(CONSTANTS::ACTIONIFY).collect(Collectors.toList());
-		this.url = link;
+		COMMAND_REGEXES = commands.stream().map(CONSTANTS::ACTIONIFY).collect(Collectors.toList());
+		url = link;
 		this.message = message;
 	}
 

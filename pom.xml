@@ -6,7 +6,7 @@
 
     <groupId>com.hollandjake</groupId>
     <artifactId>chatbot</artifactId>
-    <version>0.8.5</version>
+    <version>0.9.0</version>
     <build>
         <plugins>
             <plugin>

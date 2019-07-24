@@ -7,21 +7,21 @@ While this class is not instantiable it provides a base class to extend.
 
 ```java
 class ChatbotTest extends Chatbot {
-	public ChatbotTest(Config config) {
+	public ChatbotTest(Config config) throws SQLException {
 		super(config);
 	}
 
-	@Override
-	protected void loadModules() {
-		modules.put("Github", new OneLinkCommand(this,
-				Arrays.asList("github", "repo"),
-				"Github repository",
-				"https://github.com/hollandjake/chatbot"
-				));
+	public static void main(String[] args) throws SQLException {
+		new ChatbotTest(new Config());
 	}
 
-	public static void main(String[] args) {
-		new ChatbotTest(new Config());
+	@Override
+	protected void loadModules(Connection connection) {
+		modules.put("Github", new OneLinkCommand(this,
+				Arrays.asList("github", "repo", "git"),
+				"Github repository",
+				"https://github.com/hollandjake/chatbot"
+		));
 	}
 }
 ```

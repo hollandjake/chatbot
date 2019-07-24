@@ -53,17 +53,17 @@ public class Stats extends CommandModule {
 	}
 
 	public String getMinifiedStats() {
-		String version = this.chatbot.getVersion();
+		String version = chatbot.getVersion();
 		return "Version: " + version + "\nJava version: " + System.getProperty("java.version") + "\nOperating System: " + System.getProperty("os.name");
 	}
 
 	private String getStats() {
-		String minifiedStats = this.getMinifiedStats();
-		return minifiedStats + "\n\n" + this.getUptime() + "\nUnique messages read this session: " + this.chatbot.getNumMessages();
+		String minifiedStats = getMinifiedStats();
+		return minifiedStats + "\n\n" + getUptime() + "\nUnique messages read this session: " + chatbot.getNumMessages();
 	}
 
 	private String getUptime() {
-		LocalDateTime startupTime = this.chatbot.getStartup();
+		LocalDateTime startupTime = chatbot.getStartup();
 		LocalDateTime now = LocalDateTime.now();
 		long diff = now.toEpochSecond(ZoneOffset.UTC) - startupTime.toEpochSecond(ZoneOffset.UTC);
 		long diffSeconds = TimeUnit.SECONDS.convert(diff, TimeUnit.SECONDS) % 60;
