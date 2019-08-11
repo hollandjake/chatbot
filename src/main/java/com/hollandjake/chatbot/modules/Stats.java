@@ -25,14 +25,14 @@ public class Stats extends CommandModule {
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
 			String match = getMatch(component);
-			if (match.equals(STATS_REGEX)) {
-				chatbot.sendMessage(getStats());
-				return true;
-			} else if (match.equals(UPTIME_REGEX) || match.equals(PUPTIME_REGEX)) {
-				chatbot.sendMessage(getUptime());
+			if (!match.isEmpty()) {
+				if (match.equals(STATS_REGEX)) {
+					chatbot.sendMessage(getStats());
+				} else if (match.equals(UPTIME_REGEX) || match.equals(PUPTIME_REGEX)) {
+					chatbot.sendMessage(getUptime());
+				}
 				return true;
 			}
-
 		}
 		return false;
 	}

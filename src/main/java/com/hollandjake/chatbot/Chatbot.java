@@ -51,6 +51,14 @@ public abstract class Chatbot extends API {
 		return false;
 	}
 
+	private void prepareModules(Connection connection) throws SQLException {
+		for (CommandableModule module : modules.values()) {
+			if (module instanceof DatabaseModule) {
+				((DatabaseModule) module).prepareStatements(connection);
+			}
+		}
+	}
+
 	@Override
 	public void newMessage(Message message) {
 		numMessages++;
@@ -65,14 +73,6 @@ public abstract class Chatbot extends API {
 		} catch (Exception e) {
 			e.printStackTrace();
 			sendMessage("I'm sorry, somethings gone wrong");
-		}
-	}
-
-	private void prepareModules(Connection connection) throws SQLException {
-		for (CommandableModule module : modules.values()) {
-			if (module instanceof DatabaseModule) {
-				((DatabaseModule) module).prepareStatements(connection);
-			}
 		}
 	}
 

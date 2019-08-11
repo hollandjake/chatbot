@@ -41,29 +41,30 @@ public class Reddit extends CommandModule {
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
 			String match = getMatch(component);
-			if (match.equals(REDDITS_REGEX)) {
-				StringBuilder response = new StringBuilder("Reddits currently in use\n");
-				int numReddits = 0;
-				for (CommandableModule module : chatbot.getModules().values()) {
-					if (module instanceof RedditModule) {
-						response.append("\n");
-						for (String subreddit : ((RedditModule) module).getSubreddits()) {
-							numReddits++;
-							response.append("\thttps://www.reddit.com/r/").append(subreddit).append("\n");
+			if (!match.isEmpty()) {
+				if (match.equals(REDDITS_REGEX)) {
+					StringBuilder response = new StringBuilder("Reddits currently in use\n");
+					int numReddits = 0;
+					for (CommandableModule module : chatbot.getModules().values()) {
+						if (module instanceof RedditModule) {
+							response.append("\n");
+							for (String subreddit : ((RedditModule) module).getSubreddits()) {
+								numReddits++;
+								response.append("\thttps://www.reddit.com/r/").append(subreddit).append("\n");
+							}
 						}
 					}
+					response.append("\n")
+							.append(numReddits)
+							.append(" reddit module")
+							.append(numReddits != 1 ? "s" : "")
+							.append(" being used");
+					chatbot.sendMessage(response.toString());
+				} else if (match.equals(REDDIT_REGEX)) {
+					chatbot.sendMessage("https://www.reddit.com/");
 				}
-				response.append("\n")
-						.append(numReddits)
-						.append(" reddit module")
-						.append(numReddits != 1 ? "s" : "")
-						.append(" being used");
-				chatbot.sendMessage(response.toString());
 				return true;
-			} else if (match.equals(REDDIT_REGEX)) {
-				chatbot.sendMessage("https://www.reddit.com/");
 			}
-
 		}
 		return false;
 	}

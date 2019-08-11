@@ -26,15 +26,17 @@ public class Shutdown extends CommandModule {
 	public boolean process(Message message) throws MalformedCommandException {
 		for (MessageComponent component : message.getComponents()) {
 			String match = getMatch(component);
-			if (match.equals(SHUTDOWN_REGEX)) {
-				String text = ((Text) component).getText();
-				Matcher matcher = Pattern.compile(SHUTDOWN_REGEX).matcher(text);
-				if (matcher.find() && matcher.group(1).equals(code)) {
-					chatbot.quit();
-					return true;
-				} else {
-					throw new MalformedCommandException();
+			if (!match.isEmpty()) {
+				if (match.equals(SHUTDOWN_REGEX)) {
+					String text = ((Text) component).getText();
+					Matcher matcher = Pattern.compile(SHUTDOWN_REGEX).matcher(text);
+					if (matcher.find() && matcher.group(1).equals(code)) {
+						chatbot.quit();
+					} else {
+						throw new MalformedCommandException();
+					}
 				}
+				return true;
 			}
 		}
 		return false;

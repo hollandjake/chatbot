@@ -26,11 +26,13 @@ public class OneLinkCommand extends CommandModule {
 	public boolean process(Message message) {
 		for (MessageComponent component : message.getComponents()) {
 			String match = getMatch(component);
-			for (String command : COMMAND_REGEXES) {
-				if (match.equals(command)) {
-					chatbot.sendMessage(this.message + (url.isEmpty() ? "" : (":\n" + url)));
-					return true;
+			if (!match.isEmpty()) {
+				for (String command : COMMAND_REGEXES) {
+					if (match.equals(command)) {
+						chatbot.sendMessage(this.message + (url.isEmpty() ? "" : (":\n" + url)));
+					}
 				}
+				return true;
 			}
 		}
 		return false;
